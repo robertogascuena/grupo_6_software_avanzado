@@ -1,7 +1,6 @@
 <html>
  <head>
   <title>Calificacion</title>
-  <!--<script src="./scripts/actualizarCheckBox.js"></script>-->
   <script>
     function update(num){
 		document.getElementById("checkbox"+num).checked = true;
