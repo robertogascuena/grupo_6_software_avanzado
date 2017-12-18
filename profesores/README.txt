@@ -9,19 +9,15 @@ xampp\htdocs y añadir la carpeta profesores que se encuentra en la carpeta pagin
 
 4- Iniciar los servidores de Apache y MySQL, se pueden iniciar ejecutando xampp-control.exe dentro de la carpeta de instalacion de XAMMP
 
-Ahora se podra acceder al login de los profesores accediendo desde el navegador a la página http://localhost/profesores
+Ahora se podrá acceder al login de los profesores accediendo desde el navegador a la página http://localhost/profesores
 
 5- Para importar la base de datos acceder a http://localhost/phpmyadmin/ . En la pestaña importar seleccionar el archivo
 127_0_0_1.sql.zip que se encuentra en la carpeta base_de_datos
 
-6- Una vez importada la base de datos se han de crear los usuarios de los profesores para acceder a la calificación.
-En http://localhost/phpmyadmin/ seleccionar la base de datos universidad.
-Seleccionar la pestaña privilegios
-Pulsar a Agregar cuenta de usuario
-El nombre de usuario tiene que ser el mismo que aparece en la columna 'nombre_usuario' de la tabla profesor
--Ej: Nombre de usuario: juan.antonio Contraseña: antonio
-Seleccionar los privilegios de datos y darle a continuar
+6- Arrancar el servidor del API Rest para ello ir a la carpeta python-flask-server y ejecutar el comando:
+python -m swagger_server
+Se puede acceder al API Rest desde la página: http://localhost:8080/profesores/ui/
 
-7- Ahora se podra entrar con el usuario juan.antonio y acceder la calificacion de su asignatura que es Algoritmia desde la página 
+7- Ahora se podrá entrar con un usuario de profesor, por ejemplo "juan.antonio" y acceder la calificación de su asignatura que es Algoritmia desde la página 
 http://localhost/profesores
 
