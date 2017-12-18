@@ -1,0 +1,371 @@
+---
+swagger: "2.0"
+info:
+  description: "API para la gestión de calificaciones de los alumnos."
+  version: "1.0.0"
+  title: "API para la gestión de profesores"
+host: "localhost:8080"
+basePath: "/profesores"
+tags:
+- name: "Notas"
+  description: "Operaciones sobre las calificaciones"
+- name: "Matriculas"
+  description: "Operaciones sobre las matriculas"
+- name: "Alumnos"
+  description: "Operaciones sobre los alumnos"
+- name: "Asignaturas"
+  description: "Operaciones sobre las asignaturas"
+- name: "Profesores"
+  description: "Operaciones sobre los profesores"
+schemes:
+- "https"
+paths:
+  /nota:
+    put:
+      tags:
+      - "Notas"
+      summary: "Actualiza una nota"
+      description: "Actualiza la nota de un alumno en una asignatura."
+      operationId: "actualiza_nota"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "calificacion"
+        description: "La calificación que se va a actualizar."
+        required: true
+        schema:
+          $ref: "#/definitions/Nota"
+      responses:
+        200:
+          description: "Nota actualizada correctamente."
+        400:
+          description: "La nota no ha podido ser actualizada."
+      x-swagger-router-controller: "swagger_server.controllers.notas_controller"
+  /notas/by-asignatura/{id}:
+    get:
+      tags:
+      - "Notas"
+      summary: "Devuelve las notas"
+      description: "Devuelve las notas de la asignatura"
+      operationId: "notas_id_asignatura_get"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la asignatura"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operación correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Calificacion"
+        404:
+          description: "La asignatura no existe."
+      x-swagger-router-controller: "swagger_server.controllers.notas_controller"
+  /notas/by-profesor/{dni}:
+    get:
+      tags:
+      - "Notas"
+      summary: "Devuelve las notas"
+      description: "Devuelve las notas de los alumnos del profesor"
+      operationId: "notas_dni_profesor_get"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operación correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Calificacion"
+        404:
+          description: "El profesor no existe."
+      x-swagger-router-controller: "swagger_server.controllers.notas_controller"
+  /notas/by-user-profesor/{nombreUsuario}:
+    get:
+      tags:
+      - "Notas"
+      summary: "Devuelve las notas"
+      description: "Devuelve las notas de los alumnos del profesor"
+      operationId: "notas_user_profesor_get"
+      parameters:
+      - name: "nombreUsuario"
+        in: "path"
+        description: "Nombre de usuario del profesor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Operación correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Calificacion"
+        404:
+          description: "El profesor no existe."
+      x-swagger-router-controller: "swagger_server.controllers.notas_controller"
+  /notas/by-alumno/{dni}:
+    get:
+      tags:
+      - "Notas"
+      summary: "Devuelve las notas"
+      description: "Devuelve las notas del alumno"
+      operationId: "notas_dni_alumno_get"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del alumno"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operación correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Calificacion"
+        404:
+          description: "El alumno no existe."
+      x-swagger-router-controller: "swagger_server.controllers.notas_controller"
+  /matricula:
+    post:
+      tags:
+      - "Matriculas"
+      summary: "Matricula a un alumno"
+      description: "Matricula a un alumno en una asignatura."
+      operationId: "crea_matricula"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "matricula"
+        description: "La matricula que se va a crear."
+        required: true
+        schema:
+          $ref: "#/definitions/Matricula"
+      responses:
+        200:
+          description: "Matricula creada correctamente."
+        400:
+          description: "La matricula no ha podido ser creada."
+      x-swagger-router-controller: "swagger_server.controllers.matriculas_controller"
+  /alumno:
+    post:
+      tags:
+      - "Alumnos"
+      summary: "Crea un alumno"
+      description: "Añade un alumno a la lista de alumnos."
+      operationId: "crear_alumno"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "alumno"
+        description: "El alumno que se va a añadir."
+        required: true
+        schema:
+          $ref: "#/definitions/Alumno"
+      responses:
+        200:
+          description: "Alumno creado correctamente."
+        400:
+          description: "El alumno no ha podido ser creado."
+      x-swagger-router-controller: "swagger_server.controllers.alumnos_controller"
+  /delete-alumno/{dni}:
+    delete:
+      tags:
+      - "Alumnos"
+      summary: "Borra un alumno"
+      description: "Borra un alumno y todas sus notas."
+      operationId: "borra_alumno"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del alumno"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Alumno borrado correctamente."
+        400:
+          description: "El alumno no ha podido ser borrado."
+      x-swagger-router-controller: "swagger_server.controllers.alumnos_controller"
+  /asignatura:
+    post:
+      tags:
+      - "Asignaturas"
+      summary: "Crea una asignatura"
+      description: "Añade una asignatura a la lista de asignaturas."
+      operationId: "crear_asignatura"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "asignatura"
+        description: "La asignatura que se va a añadir."
+        required: true
+        schema:
+          $ref: "#/definitions/Asignatura"
+      responses:
+        200:
+          description: "Asignatura creada correctamente."
+        400:
+          description: "La asignatura no ha podido ser creada."
+      x-swagger-router-controller: "swagger_server.controllers.asignaturas_controller"
+  /delete-asignatura/{id}:
+    delete:
+      tags:
+      - "Asignaturas"
+      summary: "Borra una asignatura"
+      description: "Borra una asignatura y todas sus notas."
+      operationId: "borra_asignatura"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID de la asignatura"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Asignatura borrada correctamente."
+        400:
+          description: "La asignatura no ha podido ser borrada."
+      x-swagger-router-controller: "swagger_server.controllers.asignaturas_controller"
+  /profesor:
+    post:
+      tags:
+      - "Profesores"
+      summary: "Crea un profesor"
+      description: "Añade un profesor a la lista de profesores."
+      operationId: "crear_profesor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "profesor"
+        description: "El profesor que se va a añadir."
+        required: true
+        schema:
+          $ref: "#/definitions/Profesor"
+      responses:
+        200:
+          description: "Profesor creado correctamente."
+        400:
+          description: "El profesor no ha podido ser creado."
+      x-swagger-router-controller: "swagger_server.controllers.profesores_controller"
+  /delete-profesor/{dni}:
+    delete:
+      tags:
+      - "Profesores"
+      summary: "Borra un profesor"
+      description: "Borra un profesor, sus asignaturas y las calificaciones de sus\
+        \ asignaturas."
+      operationId: "borra_profesor"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Profesor borrado correctamente."
+        400:
+          description: "El profesor no ha podido ser borrado."
+      x-swagger-router-controller: "swagger_server.controllers.profesores_controller"
+definitions:
+  Nota:
+    type: "object"
+    properties:
+      dniAlumno:
+        type: "integer"
+      idAsignatura:
+        type: "integer"
+      nota:
+        type: "number"
+  Calificacion:
+    type: "object"
+    properties:
+      dniAlumno:
+        type: "integer"
+      idAsignatura:
+        type: "integer"
+      nota:
+        type: "number"
+      nombAlumno:
+        type: "string"
+      apelAlumno:
+        type: "string"
+      nombAsignatura:
+        type: "string"
+      departamento:
+        type: "string"
+      nombProfesor:
+        type: "string"
+      comentarios:
+        type: "string"
+  Matricula:
+    type: "object"
+    properties:
+      dniAlumno:
+        type: "integer"
+      idAsignatura:
+        type: "integer"
+  Alumno:
+    type: "object"
+    properties:
+      dni:
+        type: "integer"
+      nombre:
+        type: "string"
+      apellidos:
+        type: "string"
+  Asignatura:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      dniProfesor:
+        type: "integer"
+      nombre:
+        type: "string"
+      departamento:
+        type: "string"
+  Profesor:
+    type: "object"
+    properties:
+      dni:
+        type: "integer"
+      nombre:
+        type: "string"
+      apellidos:
+        type: "string"
+      nombreUsuario:
+        type: "string"
